@@ -2,7 +2,7 @@ const { sql } = require('@vercel/postgres');
 
 module.exports = async function handler(request, response) {
   try {
-    const { rows } = await sql`SELECT * FROM registrations ORDER BY date ASC;`;
+    const { rows } = await sql`SELECT * FROM registrations WHERE confirmed = TRUE ORDER BY date ASC;`;
 
     const categories = {
       'Solo': [],

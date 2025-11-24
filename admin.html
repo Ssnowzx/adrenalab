@@ -8,14 +8,13 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: sans-serif; }
-        .font-mono { font-family: 'Courier New', Courier, monospace; }
     </style>
 </head>
 <body class="min-h-screen w-full bg-[#1a0f06] text-orange-500 p-8">
 
     <div class="max-w-4xl mx-auto">
         <div class="flex items-center justify-between mb-8">
-            <h1 class="text-3xl font-black uppercase tracking-tighter">Lista de Inscritos</h1>
+            <h1 class="text-3xl font-black uppercase tracking-tighter">Gerenciar Inscrições</h1>
             <div class="flex gap-4">
                 <button onclick="fetchData()" class="flex items-center gap-2 bg-orange-900/30 hover:bg-orange-900/50 text-orange-400 px-4 py-2 rounded border border-orange-800 transition-colors">
                     <i data-lucide="refresh-cw" width="16"></i>
@@ -28,14 +27,28 @@
             </div>
         </div>
 
-        <div class="bg-black border border-orange-900 rounded-xl p-6 shadow-2xl overflow-hidden relative">
-            <div id="loading" class="absolute inset-0 bg-black/80 flex items-center justify-center z-10">
+        <div class="bg-black border border-orange-900 rounded-xl shadow-2xl overflow-hidden relative min-h-[200px]">
+            <div id="loading" class="absolute inset-0 bg-black/80 flex items-center justify-center z-10 hidden">
                 <div class="animate-spin text-orange-500">
                     <i data-lucide="loader-2" width="40" height="40"></i>
                 </div>
             </div>
             
-            <pre id="content" class="font-mono text-sm md:text-base text-orange-300 whitespace-pre-wrap leading-relaxed"></pre>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-orange-900/20 text-orange-300 text-sm uppercase tracking-wider">
+                        <th class="p-4 border-b border-orange-800">Nome</th>
+                        <th class="p-4 border-b border-orange-800">Categoria</th>
+                        <th class="p-4 border-b border-orange-800">Data</th>
+                        <th class="p-4 border-b border-orange-800 text-center">Status</th>
+                        <th class="p-4 border-b border-orange-800 text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="divide-y divide-orange-900/30">
+                    <!-- Rows will be inserted here -->
+                </tbody>
+            </table>
+            <div id="empty-message" class="hidden p-8 text-center text-orange-700">Nenhuma inscrição encontrada.</div>
         </div>
     </div>
 
@@ -44,22 +57,84 @@
 
         async function fetchData() {
             const loading = document.getElementById('loading');
-            const content = document.getElementById('content');
+            const tbody = document.getElementById('table-body');
+            const emptyMsg = document.getElementById('empty-message');
             
             loading.classList.remove('hidden');
+            tbody.innerHTML = '';
             
             try {
-                const response = await fetch('/api/download');
+                const response = await fetch('/api/registrations');
                 if (!response.ok) throw new Error('Erro ao carregar dados');
                 
-                const text = await response.text();
-                content.textContent = text;
+                const data = await response.json();
+                
+                if (data.length === 0) {
+                    emptyMsg.classList.remove('hidden');
+                } else {
+                    emptyMsg.classList.add('hidden');
+                    data.forEach(reg => {
+                        const row = document.createElement('tr');
+                        row.className = 'hover:bg-orange-900/10 transition-colors';
+                        
+                        const date = new Date(reg.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+                        const statusBadge = reg.confirmed 
+                            ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-900/30 text-green-400 border border-green-800">Confirmado</span>`
+                            : `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-900/30 text-yellow-400 border border-yellow-800">Pendente</span>`;
+
+                        const confirmBtn = !reg.confirmed 
+                            ? `<button onclick="confirmUser(${reg.id})" class="p-2 bg-green-900/20 text-green-500 hover:bg-green-900/50 rounded border border-green-800 transition-colors" title="Confirmar">
+                                <i data-lucide="check" width="16"></i>
+                               </button>` 
+                            : '';
+
+                        row.innerHTML = `
+                            <td class="p-4 font-bold text-orange-200">${reg.nome}</td>
+                            <td class="p-4 text-orange-400">${reg.categoria}</td>
+                            <td class="p-4 text-orange-600 text-sm">${date}</td>
+                            <td class="p-4 text-center">${statusBadge}</td>
+                            <td class="p-4 text-right flex justify-end gap-2">
+                                ${confirmBtn}
+                                <button onclick="deleteUser(${reg.id})" class="p-2 bg-red-900/20 text-red-500 hover:bg-red-900/50 rounded border border-red-800 transition-colors" title="Excluir">
+                                    <i data-lucide="trash-2" width="16"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    lucide.createIcons();
+                }
             } catch (error) {
-                content.textContent = 'Erro ao carregar a lista. Tente novamente.\n' + error.message;
-                content.classList.add('text-red-500');
+                alert('Erro ao carregar lista: ' + error.message);
             } finally {
                 loading.classList.add('hidden');
             }
+        }
+
+        async function confirmUser(id) {
+            if (!confirm('Confirmar inscrição?')) return;
+            try {
+                const res = await fetch('/api/confirm', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                if (res.ok) fetchData();
+                else alert('Erro ao confirmar');
+            } catch (e) { alert('Erro: ' + e.message); }
+        }
+
+        async function deleteUser(id) {
+            if (!confirm('Tem certeza que deseja EXCLUIR esta inscrição?')) return;
+            try {
+                const res = await fetch('/api/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                if (res.ok) fetchData();
+                else alert('Erro ao excluir');
+            } catch (e) { alert('Erro: ' + e.message); }
         }
 
         // Carrega ao iniciar
