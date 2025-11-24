@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of Skate - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: sans-serif; }
+        .font-mono { font-family: 'Courier New', Courier, monospace; }
+    </style>
+</head>
+<body class="min-h-screen w-full bg-[#1a0f06] text-orange-500 p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-black uppercase tracking-tighter">Lista de Inscritos</h1>
+            <div class="flex gap-4">
+                <button onclick="fetchData()" class="flex items-center gap-2 bg-orange-900/30 hover:bg-orange-900/50 text-orange-400 px-4 py-2 rounded border border-orange-800 transition-colors">
+                    <i data-lucide="refresh-cw" width="16"></i>
+                    Atualizar
+                </button>
+                <a href="/api/download" class="flex items-center gap-2 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded shadow-lg transition-colors font-bold">
+                    <i data-lucide="download" width="16"></i>
+                    Baixar TXT
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-black border border-orange-900 rounded-xl p-6 shadow-2xl overflow-hidden relative">
+            <div id="loading" class="absolute inset-0 bg-black/80 flex items-center justify-center z-10">
+                <div class="animate-spin text-orange-500">
+                    <i data-lucide="loader-2" width="40" height="40"></i>
+                </div>
+            </div>
+            
+            <pre id="content" class="font-mono text-sm md:text-base text-orange-300 whitespace-pre-wrap leading-relaxed"></pre>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        async function fetchData() {
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('content');
+            
+            loading.classList.remove('hidden');
+            
+            try {
+                const response = await fetch('/api/download');
+                if (!response.ok) throw new Error('Erro ao carregar dados');
+                
+                const text = await response.text();
+                content.textContent = text;
+            } catch (error) {
+                content.textContent = 'Erro ao carregar a lista. Tente novamente.\n' + error.message;
+                content.classList.add('text-red-500');
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+
+        // Carrega ao iniciar
+        fetchData();
+    </script>
+</body>
+</html>
