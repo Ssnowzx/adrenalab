@@ -86,9 +86,9 @@
                             id="input-categoria"
                             class="w-full bg-black border-2 border-orange-800 rounded-xl py-3 pl-10 pr-10 text-orange-400 appearance-none focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all duration-300 cursor-pointer hover:bg-orange-900/10"
                         >
-                            <option value="Solo">Solo (Dia 06/12)</option>
-                            <option value="Mini">Mini (Dia 07/12)</option>
-                            <option value="Solo + Mini">Solo + Mini (Combo)</option>
+                            <option value="Solo">Solo (Dia 06/12) - R$ 10,00</option>
+                            <option value="Mini">Mini (Dia 07/12) - R$ 10,00</option>
+                            <option value="Solo + Mini">Solo + Mini (Combo) - R$ 20,00</option>
                         </select>
                         <div class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-600 pointer-events-none">
                             <i data-lucide="chevron-down" width="16"></i>
@@ -114,12 +114,21 @@
                 
                 <div class="bg-orange-900/20 border border-orange-800 rounded-xl p-4 mb-6 relative group">
                     <p class="text-orange-400 mb-2 text-sm uppercase tracking-wider font-bold">Agora é só fazer o pix:</p>
-                    <div class="flex items-center justify-between bg-black/50 rounded-lg p-3 border border-orange-900/50">
+                    <div class="flex items-center justify-between bg-black/50 rounded-lg p-3 border border-orange-900/50 mb-4">
                         <code id="pix-key" class="text-orange-200 font-mono text-sm break-all">adrenaskateboard@gmail.com</code>
                         <button id="btn-copy" class="ml-2 text-orange-500 hover:text-orange-300 transition-colors p-2 rounded hover:bg-orange-900/30" title="Copiar Chave Pix">
                             <i data-lucide="copy" width="18"></i>
                         </button>
                     </div>
+
+                    <p class="text-orange-300 text-xs mb-3 font-medium text-center">
+                        Após efetuar o pagamento, mande o comprovante para garantir a sua vaga.
+                    </p>
+
+                    <a href="https://wa.me/5549999464190" target="_blank" class="block w-full bg-green-600/20 hover:bg-green-600/30 border border-green-500/50 text-green-400 hover:text-green-300 text-center font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide">
+                        <i data-lucide="message-circle" width="18"></i>
+                        Mande o comprovante aqui!
+                    </a>
                     <div id="copy-feedback" class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-green-400 font-bold opacity-0 transition-opacity duration-300">
                         Copiado!
                     </div>
@@ -138,10 +147,7 @@
                     Fazer nova inscrição
                 </button>
 
-                <a href="https://wa.me/5549999464190" target="_blank" class="block mt-6 text-sm text-green-500 hover:text-green-400 font-bold tracking-wide transition-colors flex items-center justify-center gap-2">
-                    <i data-lucide="message-circle" width="16"></i>
-                    Mande o comprovante aqui!
-                </a>
+
             </div>
 
         </div>
