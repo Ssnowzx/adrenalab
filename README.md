@@ -86,4 +86,4 @@ Isso criará:
 *Nota: Para testar o fluxo de checkout completo localmente (pagamento + banco), você precisará configurar as variáveis de ambiente localmente (ex: usando Vercel CLI `vercel dev`) ou subir para um ambiente de preview.*
 
 ---
-*Gerado por Antigravity Agent - 2025*
+
