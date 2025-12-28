@@ -1,9 +1,13 @@
 {
-  "name": "game-of-skate-backend",
+  "name": "adrenaskt-system",
   "version": "1.0.0",
-  "description": "Backend for Game of Skate registration",
-  "scripts": {},
-  "dependencies": {
-    "@vercel/postgres": "^0.5.0"
-  }
+  "description": "ADRENASKT Online System",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
