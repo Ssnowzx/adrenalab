@@ -5,6 +5,7 @@ import { initWindowManager } from './core/windowManager.js';
 import { initNavigation } from './core/navigation.js';
 import { initMediaPlayer } from './components/molecules/MediaPlayer.js';
 import { initAuth } from './components/authManager.js';
+import { initCheckout } from './core/checkoutManager.js';
 
 console.log(">> ADRENASKT SYSTEM INITIALIZED v2.2 <<");
 
@@ -164,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCartUI();
   initMediaPlayer();
   initAuth();
+  initCheckout();
   initClock();
 
   // Render multiple places

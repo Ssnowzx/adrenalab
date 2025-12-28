@@ -73,7 +73,7 @@
             </div>
             
             <button id="btn-fallback-checkout" class="w-full bg-green-600 hover:bg-green-500 text-black retro-font py-3 text-sm mb-2 hidden">
-                FINALIZAR PEDIDO (ZAP)
+                FINALIZAR PEDIDO (CHECKOUT)
             </button>
         </div>
     </div>
@@ -151,48 +151,183 @@
             </div>
         </div>
 
-        <!-- JANELA LOGIN -->
-        <div class="drag-window z-30 hidden" id="win-login" style="width: 320px; height: auto; top: 20%; left: 50%; transform: translateX(-50%);">
-            <div class="bg-purple-800 text-white p-1 flex justify-between items-center cursor-move window-header border-b-2 border-purple-500 flex-shrink-0">
-                <span class="retro-font text-xs pl-2">🔑 ACESSO_RESTRITO.exe</span>
-                <div class="flex gap-1">
-                    <button class="win-minimize-btn w-4 h-4 bg-black border border-white flex items-center justify-center hover:bg-purple-500 text-[10px]" data-target="win-login" data-title="🔑 LOGIN">_</button>
-                    <button id="close-login-btn" class="w-4 h-4 bg-red-600 border border-white flex items-center justify-center hover:bg-red-500 text-[10px]">X</button>
-                </div>
+    <!-- PÁGINA DE LOGIN (FULL PAGE) -->
+    <section id="full-login-page" class="full-page-section bg-black/95 backdrop-blur-md text-white z-[60]">
+        <div class="sticky top-0 z-50 bg-black/95 border-b border-purple-600 p-4 flex justify-between items-center h-16">
+            <div class="flex items-center gap-4">
+                <i class="ph-duotone ph-fingerprint text-3xl text-purple-500"></i>
+                <h2 class="retro-font text-xl text-purple-500">ACESSO_RESTRITO.exe</h2>
             </div>
-            <div class="p-6 bg-black/95 border border-purple-500 flex flex-col gap-4 font-mono">
+            <button id="btn-back-desktop-login" class="border border-purple-500 text-purple-500 px-4 py-2 retro-font text-xs hover:bg-purple-500 hover:text-black transition uppercase">
+                <i class="ph-bold ph-arrow-u-up-left mr-2"></i> VOLTAR
+            </button>
+        </div>
+
+        <div class="container mx-auto p-4 flex items-center justify-center min-h-[80vh]">
+            <div class="w-full max-w-md border border-purple-600 bg-black p-8 relative overflow-hidden shadow-[0_0_20px_rgba(147,51,234,0.2)]">
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 left-0 w-2 h-2 bg-purple-500"></div>
+                <div class="absolute top-0 right-0 w-2 h-2 bg-purple-500"></div>
+                <div class="absolute bottom-0 left-0 w-2 h-2 bg-purple-500"></div>
+                <div class="absolute bottom-0 right-0 w-2 h-2 bg-purple-500"></div>
                 
-                <div class="text-center mb-2">
-                    <div class="w-16 h-16 mx-auto border border-purple-500 rounded-full flex items-center justify-center bg-purple-900/30 mb-2">
-                        <i class="ph-duotone ph-fingerprint text-3xl text-purple-400"></i>
-                    </div>
-                    <h3 class="text-purple-400 text-sm">AUTENTICAÇÃO</h3>
+                <div class="text-center mb-8">
+                    <h3 class="retro-font text-2xl text-white mb-2">AUTENTICAÇÃO</h3>
+                    <p class="font-mono text-purple-400 text-xs">Insira suas credenciais para acessar o sistema.</p>
                 </div>
 
-                <form id="login-form" class="flex flex-col gap-3">
+                <form id="login-form" data-mode="login" class="space-y-6">
                     <div>
-                        <label class="text-[10px] text-gray-400 block mb-1">USUÁRIO / EMAIL</label>
-                        <input type="email" id="email-input" class="w-full bg-gray-900 border border-purple-800 p-2 text-white text-sm focus:border-purple-500 focus:outline-none placeholder-gray-700" placeholder="user@adrenaskt.com" required>
+                        <label class="block retro-font text-[10px] text-purple-300 mb-2">IDENTIFICAÇÃO (EMAIL)</label>
+                        <div class="relative">
+                            <input type="email" id="email-input" class="w-full bg-gray-900 border border-purple-800 text-white p-3 font-mono text-sm focus:border-purple-400 focus:outline-none transition-colors" placeholder="usuario@adrena.skt" required>
+                            <i class="ph-bold ph-user absolute right-3 top-3.5 text-purple-700"></i>
+                        </div>
                     </div>
+                    
                     <div>
-                        <label class="text-[10px] text-gray-400 block mb-1">SENHA</label>
-                        <input type="password" id="password-input" class="w-full bg-gray-900 border border-purple-800 p-2 text-white text-sm focus:border-purple-500 focus:outline-none placeholder-gray-700" placeholder="********" required>
+                        <label class="block retro-font text-[10px] text-purple-300 mb-2">CHAVE DE ACESSO (SENHA)</label>
+                        <div class="relative">
+                            <input type="password" id="password-input" class="w-full bg-gray-900 border border-purple-800 text-white p-3 font-mono text-sm focus:border-purple-400 focus:outline-none transition-colors" placeholder="••••••••" required>
+                            <i class="ph-bold ph-key absolute right-3 top-3.5 text-purple-700"></i>
+                        </div>
                     </div>
 
-                    <div id="login-message" class="text-xs text-center min-h-[1rem]"></div>
+                    <div id="login-message" class="text-center min-h-[1.5rem] text-xs font-mono"></div>
 
-                    <button type="submit" class="mt-2 bg-purple-700 hover:bg-purple-600 text-white py-2 retro-font text-xs uppercase border border-purple-500 transition-colors">
+                    <button type="submit" class="w-full bg-purple-700 hover:bg-purple-600 text-white retro-font py-3 transition-all transform active:scale-95 border border-purple-500">
                         >> CONECTAR <<
                     </button>
+                    
+                    <div class="text-center pt-4 border-t border-purple-900/50">
+                        <button type="button" id="link-signup" class="text-xs font-mono text-gray-500 hover:text-purple-400 underline decoration-dotted">
+                            NOVO REGISTRO
+                        </button>
+                    </div>
                 </form>
+            </div>
+        </div>
+    </section>
 
-                <div class="text-center mt-2 pt-2 border-t border-purple-900/50">
-                    <a href="#" id="link-signup" class="text-[10px] text-gray-500 hover:text-purple-400 underline">NOVO REGISTRO</a>
+    <!-- PÁGINA DE CHECKOUT (FULL PAGE) -->
+    <section id="full-checkout-page" class="full-page-section bg-black/95 backdrop-blur-md text-white z-[60]">
+        <div class="sticky top-0 z-50 bg-black/95 border-b border-purple-600 p-4 flex justify-between items-center h-16">
+            <div class="flex items-center gap-4">
+                <i class="ph-duotone ph-currency-dollar text-3xl text-purple-500"></i>
+                <h2 class="retro-font text-xl text-purple-500">TERMINAL_PAGAMENTO</h2>
+            </div>
+            <button id="btn-back-desktop-checkout" class="border border-purple-500 text-purple-500 px-4 py-2 retro-font text-xs hover:bg-purple-500 hover:text-black transition uppercase">
+                <i class="ph-bold ph-arrow-u-up-left mr-2"></i> CANCELAR PROCESSO
+            </button>
+        </div>
+
+        <div class="container mx-auto p-4 md:p-8 flex flex-col md:flex-row gap-8 max-w-6xl">
+            <!-- Resumo -->
+            <div class="w-full md:w-1/3 order-2 md:order-1">
+                <div class="border border-purple-800 bg-black/50 p-6 shadow-[0_0_15px_rgba(147,51,234,0.15)]">
+                    <h3 class="retro-font text-purple-400 text-sm mb-4 border-b border-purple-900 pb-2">RESUMO DO PEDIDO</h3>
+                    <div id="checkout-summary" class="space-y-3 font-mono text-sm text-purple-100/80 mb-6">
+                        <!-- Injected -->
+                    </div>
+                    <div class="bg-purple-900/20 p-3 border border-purple-600/30 text-center">
+                        <p class="text-[10px] text-purple-400 uppercase mb-1">Status do Sistema</p>
+                        <p class="text-xs text-white blink">AGUARDANDO PAGAMENTO...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagamento -->
+            <div class="w-full md:w-2/3 order-1 md:order-2">
+                <div class="border border-purple-600 bg-black p-6 relative overflow-hidden">
+                     <div class="absolute top-0 right-0 p-2 opacity-20 pointer-events-none">
+                        <i class="ph-duotone ph-lock-key text-6xl text-purple-600"></i>
+                     </div>
+                     <h3 class="retro-font text-white text-lg mb-6">DADOS DE PAGAMENTO</h3>
+                     
+                     <!-- Container Mercado Pago -->
+                     <div id="payment-brick-container"></div>
+                     
+                     <div id="payment-status-message" class="mt-4 text-center font-mono text-sm hidden p-4 border-2"></div>
                 </div>
             </div>
         </div>
+    </section>
 
     </main>
+    
+    <!-- PÁGINA DE PERFIL (FULL PAGE) -->
+    <section id="full-profile-page" class="full-page-section bg-black/95 backdrop-blur-md text-white z-[60]">
+        <div class="sticky top-0 z-50 bg-black/95 border-b border-purple-600 p-4 flex justify-between items-center h-16">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full border border-purple-500 bg-purple-900/20 flex items-center justify-center overflow-hidden">
+                    <i class="ph-duotone ph-user-circle text-2xl text-purple-400"></i>
+                </div>
+                <div>
+                     <h2 class="retro-font text-xl text-purple-500">PERFIL_USUÁRIO</h2>
+                     <p class="font-mono text-[10px] text-gray-400" id="profile-email-header">carregando...</p>
+                </div>
+            </div>
+            <button id="btn-back-desktop-profile" class="border border-purple-500 text-purple-500 px-4 py-2 retro-font text-xs hover:bg-purple-500 hover:text-black transition uppercase">
+                <i class="ph-bold ph-arrow-u-up-left mr-2"></i> VOLTAR
+            </button>
+        </div>
+
+        <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Sidebar Perfil -->
+                <div class="md:col-span-1 space-y-4">
+                    <div class="border border-purple-800 bg-black/50 p-6 relative overflow-hidden">
+                        <div class="text-center mb-6">
+                            <div class="w-24 h-24 rounded-full border-2 border-purple-500 bg-purple-900/20 mx-auto flex items-center justify-center mb-4 relative group cursor-pointer overflow-hidden">
+                                <i class="ph-duotone ph-user text-4xl text-purple-400 group-hover:opacity-50 transition"></i>
+                                <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                    <span class="text-[10px] font-mono">ALTERAR</span>
+                                </div>
+                            </div>
+                            <h3 class="retro-font text-white text-lg" id="profile-name">SKATER_GHOST</h3>
+                            <p class="font-mono text-xs text-purple-400" id="profile-joined">Membro desde 2024</p>
+                        </div>
+                        
+                        <div class="space-y-2">
+                             <div class="p-3 border border-purple-900/50 bg-purple-900/10">
+                                <p class="text-[10px] text-gray-500 uppercase">Status da Conta</p>
+                                <p class="text-xs text-green-400 font-mono flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> ATIVO
+                                </p>
+                             </div>
+                             <div class="p-3 border border-purple-900/50 bg-purple-900/10">
+                                <p class="text-[10px] text-gray-500 uppercase">Nível</p>
+                                <p class="text-xs text-purple-300 font-mono">INICIANTE</p>
+                             </div>
+                        </div>
+
+                        <button id="btn-logout" class="w-full mt-6 border border-red-900 text-red-500 hover:bg-red-900/20 py-2 retro-font text-xs transition">
+                            <i class="ph-bold ph-sign-out mr-2"></i> DESCONECTAR
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Conteúdo Principal -->
+                <div class="md:col-span-2 space-y-6">
+                    <!-- Histórico de Pedidos -->
+                    <div class="border border-purple-800 bg-black/50 p-6">
+                        <h3 class="retro-font text-purple-400 text-sm mb-4 border-b border-purple-900 pb-2 flex justify-between items-center">
+                            HISTÓRICO DE COMPRAS
+                            <span class="text-[10px] bg-purple-900 text-white px-2 py-1 rounded">Últimos 30 dias</span>
+                        </h3>
+                        
+                        <div class="space-y-4" id="order-history-list">
+                            <!-- Placeholder Empty State -->
+                            <div class="text-center py-8 text-gray-600 font-mono text-sm">
+                                <i class="ph-duotone ph-shopping-bag-open text-4xl mb-2 opacity-50"></i>
+                                <p>Nenhum pedido encontrado no banco de dados.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     
     <!-- DOCK AREA -->
     <div id="minimized-dock"></div>
