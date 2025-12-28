@@ -170,5 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render multiple places
   renderProducts('#win-shop .grid');      // Preview Window
+  renderProducts('#mobile-shop-grid');    // Mobile Feed Grid
   renderProducts('#full-store-grid');     // Full Store Page
 });

@@ -11,14 +11,17 @@ let isPlaying = false;
 let isAPILoaded = false;
 
 export function initMediaPlayer() {
-  const btnPlay = document.getElementById('btn-media-play');
+  const btns = [
+    document.getElementById('btn-media-play-desktop'),
+    document.getElementById('btn-media-play-mobile')
+  ];
 
   // Load YouTube API immediately
   loadYouTubeAPI();
 
-  if (btnPlay) {
-    btnPlay.addEventListener('click', togglePlay);
-  }
+  btns.forEach(btn => {
+    if (btn) btn.addEventListener('click', togglePlay);
+  });
 }
 
 function loadYouTubeAPI() {
@@ -38,10 +41,16 @@ function loadYouTubeAPI() {
 }
 
 function togglePlay() {
-  const screen = document.getElementById('media-screen');
-  const visualizer = document.getElementById('media-visualizer');
-  const trackName = document.getElementById('media-track-name');
-  const btnPlay = document.getElementById('btn-media-play');
+  const isMobile = window.innerWidth < 768;
+
+  // Select elements based on view context
+  let screenId = isMobile ? 'media-screen-mobile' : 'media-screen-desktop';
+  let visualizerId = isMobile ? null : 'media-visualizer-desktop';
+  let trackNameId = isMobile ? null : 'media-track-name-desktop'; // Mobile has hardcoded text for now or non-id
+
+  const screen = document.getElementById(screenId);
+  const visualizer = visualizerId ? document.getElementById(visualizerId) : null;
+  const trackName = trackNameId ? document.getElementById(trackNameId) : null;
 
   // Case 1: First Play (Initialize Player)
   if (!player) {
@@ -50,29 +59,30 @@ function togglePlay() {
       return;
     }
 
-    // Update UI state
+    // Update Desktop UI state (if visible)
     if (visualizer) visualizer.style.display = 'none';
     if (trackName) trackName.innerText = "YOUTUBE_STREAM.exe";
 
-    // Create container div for player if needed
-    screen.innerHTML = '<div id="yt-player-placeholder"></div>';
-
-    player = new YT.Player('yt-player-placeholder', {
-      height: '100%',
-      width: '100%',
-      videoId: DEFAULT_VIDEO_ID,
-      playerVars: {
-        'autoplay': 1,
-        'controls': 0,
-        'modestbranding': 1,
-        'rel': 0,
-        'showinfo': 0
-      },
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': (event) => onPlayerStateChange(event, btnPlay)
-      }
-    });
+    // Inject Player
+    if (screen) {
+      screen.innerHTML = '<div id="yt-player-placeholder"></div>';
+      player = new YT.Player('yt-player-placeholder', {
+        height: '100%',
+        width: '100%',
+        videoId: DEFAULT_VIDEO_ID,
+        playerVars: {
+          'autoplay': 1,
+          'controls': 1, // Enable controls for mobile usability
+          'modestbranding': 1,
+          'rel': 0,
+          'showinfo': 0
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': (event) => onPlayerStateChange(event)
+        }
+      });
+    }
     return;
   }
 
@@ -89,7 +99,7 @@ function onPlayerReady(event) {
   updatePlayButton(true);
 }
 
-function onPlayerStateChange(event, btnElement) {
+function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING) {
     isPlaying = true;
     updatePlayButton(true);
@@ -100,17 +110,29 @@ function onPlayerStateChange(event, btnElement) {
 }
 
 function updatePlayButton(playing) {
-  const btn = document.getElementById('btn-media-play');
-  if (!btn) return;
+  const deskBtn = document.getElementById('btn-media-play-desktop');
+  const mobBtn = document.getElementById('btn-media-play-mobile');
 
-  // Toggle Icon via Class (Phosphor Icons)
-  if (playing) {
-    btn.classList.remove('ph-play-circle');
-    btn.classList.add('ph-pause-circle');
-    btn.classList.add('text-purple-300'); // Highlight active state
-  } else {
-    btn.classList.remove('ph-pause-circle');
-    btn.classList.add('ph-play-circle');
-    btn.classList.remove('text-purple-300');
+  // Desktop Icon (<i> tag directly)
+  if (deskBtn) {
+    if (playing) {
+      deskBtn.classList.replace('ph-play-circle', 'ph-pause-circle');
+      deskBtn.classList.add('text-purple-300');
+    } else {
+      deskBtn.classList.replace('ph-pause-circle', 'ph-play-circle');
+      deskBtn.classList.remove('text-purple-300');
+    }
+  }
+
+  // Mobile Icon (<i> inside <button>)
+  if (mobBtn) {
+    const icon = mobBtn.querySelector('i');
+    if (icon) {
+      if (playing) {
+        icon.classList.replace('ph-play', 'ph-pause');
+      } else {
+        icon.classList.replace('ph-pause', 'ph-play');
+      }
+    }
   }
 }

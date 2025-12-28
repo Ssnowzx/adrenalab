@@ -9,13 +9,15 @@ export function initNavigation() {
   bind('btn-home-logo', showDesktop);
 
   bind('nav-btn-store', showStore);
-  bind('btn-open-full-store', showStore); // Button inside preview window
+  bind('btn-open-full-store', showStore); // Button inside desktop preview
+  bind('btn-open-full-store-desktop', showStore); // Distinct desktop button
+  bind('btn-open-full-store-mobile', showStore); // Mobile feed button
 
   bind('nav-btn-archive', showArchive);
 
   // Bind Back Buttons
-  bind('btn-back-desktop-store', showDesktop);
-  bind('btn-back-desktop-archive', showDesktop);
+  bind('btn-back-desktop-store', showHome);
+  bind('btn-back-desktop-archive', showHome);
 
   // Archive Playlist Interaction
   const playlistItems = document.querySelectorAll('.playlist-item');
@@ -36,8 +38,19 @@ function bind(id, handler) {
   if (el) el.addEventListener('click', handler);
 }
 
+// Unified "Home" function that decides based on viewport
+function showHome() {
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) {
+    setView({ mobile: true });
+  } else {
+    setView({ desktop: true, dock: true });
+  }
+}
+
+// Kept for backward compat or explicit calls, but mostly delegates to showHome
 function showDesktop() {
-  setView({ desktop: true, dock: true });
+  showHome();
 }
 
 function showStore() {
@@ -48,8 +61,9 @@ function showArchive() {
   setView({ archive: true });
 }
 
-function setView({ desktop = false, store = false, archive = false, dock = false }) {
+function setView({ desktop = false, mobile = false, store = false, archive = false, dock = false }) {
   toggle('desktop-area', desktop);
+  toggle('mobile-dashboard', mobile); // New Mobile Feed
   toggle('minimized-dock', dock); // Dock only visible on Desktop
   toggle('full-store-page', store);
   toggle('full-archive-page', archive);
@@ -58,7 +72,19 @@ function setView({ desktop = false, store = false, archive = false, dock = false
 function toggle(id, show) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.style.display = show ? (id === 'minimized-dock' ? 'flex' : 'block') : 'none';
+
+  if (show) {
+    // Restore appropriate display type
+    if (id === 'minimized-dock') el.style.display = 'flex';
+    else if (id === 'mobile-dashboard') el.style.display = 'block'; // or flex/grid if defined in CSS, but block usually fine
+    else el.style.display = 'block';
+
+    // Remove 'hidden' class if present (Tailwind support)
+    el.classList.remove('hidden');
+  } else {
+    el.style.display = 'none';
+    if (!el.classList.contains('hidden')) el.classList.add('hidden'); // Sync with Tailwind
+  }
 }
 
 function loadYoutubeVideo(videoId) {

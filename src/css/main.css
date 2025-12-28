@@ -191,24 +191,29 @@ h1, h2, h3, .retro-font {
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-    .drag-window {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        margin-bottom: 2rem;
-        width: 100%;
-        height: auto;
-        /* resize: none; - Allow resizing if user wants, or keep it. Let's keep resize:none for layout safety by default but allow override */
-        resize: vertical; 
+    /* Titles */
+    h1.retro-font.text-5xl {
+        font-size: 2.5rem !important;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
     }
-    .desktop-only { display: none; }
-    #minimized-dock {
-        bottom: 40px;
-        left: 0;
-        width: 100%;
-        overflow-x: auto;
-        padding: 0 10px;
+
+    /* Archive Page Mobile Fixes */
+    #full-archive-page .flex-col {
+        height: auto !important;
+        min-height: calc(100vh - 4rem) !important;
+    }
+    #full-archive-page .flex-col > div:first-child {
+        flex: none !important;
+        height: 35vh !important;
+        min-height: 250px !important;
+        width: 100% !important;
+    }
+    #full-archive-page .flex-col > div:last-child {
+        flex: 1 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
     }
 }
 

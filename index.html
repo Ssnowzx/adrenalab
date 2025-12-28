@@ -78,12 +78,14 @@
         </div>
     </div>
 
-    <!-- MAIN DESKTOP AREA -->
-    <main class="relative min-h-screen pt-16 p-4 md:p-0 pb-32 md:pb-0" id="desktop-area">
+    <!-- ============================================== -->
+    <!-- DESKTOP AREA: VIRTUAL OS (Visible md+)       -->
+    <!-- ============================================== -->
+    <main class="relative min-h-screen hidden md:block" id="desktop-area">
         
         <!-- Big Title -->
-        <div class="md:absolute top-1/2 left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 text-center pointer-events-none z-0 mb-8 md:mb-0">
-            <h1 class="retro-font text-5xl md:text-8xl text-purple-500 lab-breathe mt-4 tracking-widest">ADRENASKT</h1>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none z-0">
+            <h1 class="retro-font text-8xl text-purple-500 lab-breathe mt-4 tracking-widest">ADRENASKT</h1>
         </div>
 
         <!-- WIDGET LOJA (PREVIEW) -->
@@ -99,7 +101,7 @@
                     <!-- CONTENT INJECTED BY app.js -->
                 </div>
                 <div class="mt-4 text-center">
-                    <button class="text-xs text-purple-400 hover:text-white hover:underline" id="btn-open-full-store">>> ACESSAR LOJA COMPLETA</button>
+                    <button class="text-xs text-purple-400 hover:text-white hover:underline" id="btn-open-full-store-desktop">>> ACESSAR LOJA COMPLETA</button>
                 </div>
             </div>
         </div>
@@ -130,9 +132,9 @@
                 </div>
             </div>
             <div class="p-2 bg-black flex flex-col items-center flex-1 h-full overflow-hidden">
-                <div id="media-screen" class="w-full flex-1 min-h-[8rem] bg-purple-900/20 border border-purple-500 flex items-center justify-center mb-2 relative overflow-hidden">
+                <div id="media-screen-desktop" class="w-full flex-1 min-h-[8rem] bg-purple-900/20 border border-purple-500 flex items-center justify-center mb-2 relative overflow-hidden">
                     <!-- Visualizador CSS Simples -->
-                    <div id="media-visualizer" class="flex items-end gap-1 h-1/2">
+                    <div id="media-visualizer-desktop" class="flex items-end gap-1 h-1/2">
                         <div class="w-2 bg-purple-500 animate-[bounce_1s_infinite]"></div>
                         <div class="w-2 bg-purple-400 animate-[bounce_1.2s_infinite]"></div>
                         <div class="w-2 bg-purple-600 animate-[bounce_0.8s_infinite]"></div>
@@ -141,15 +143,81 @@
                     </div>
                 </div>
                 <div class="w-full text-xs text-purple-300 font-mono mb-2 flex-shrink-0 text-center">
-                    TOCANDO: <span id="media-track-name" class="text-white">PUNK_TRAP_SESSION.mp3</span>
+                    TOCANDO: <span id="media-track-name-desktop" class="text-white">PUNK_TRAP_SESSION.mp3</span>
                 </div>
                 <div class="flex justify-center gap-4 text-2xl text-purple-500 flex-shrink-0 mb-2">
                     <i class="ph-fill ph-skip-back hover:text-white cursor-pointer"></i>
-                    <i id="btn-media-play" class="ph-fill ph-play-circle hover:text-white cursor-pointer transition-transform active:scale-95"></i>
+                    <i id="btn-media-play-desktop" class="ph-fill ph-play-circle hover:text-white cursor-pointer transition-transform active:scale-95"></i>
                     <i class="ph-fill ph-skip-forward hover:text-white cursor-pointer"></i>
                 </div>
             </div>
         </div>
+    </main>
+
+    <!-- ============================================== -->
+    <!-- MOBILE DASHBOARD: FEED VIEW (Visible < md)     -->
+    <!-- ============================================== -->
+    <section id="mobile-dashboard" class="md:hidden pt-20 pb-32 px-4 space-y-6">
+        
+        <!-- Mobile Hero -->
+        <div class="text-center space-y-2">
+            <h1 class="retro-font text-4xl text-purple-500 lab-breathe tracking-wider">ADRENASKT</h1>
+            <div class="inline-block bg-purple-900/30 border border-purple-500/50 px-3 py-1 rounded">
+                <p class="font-mono text-xs text-purple-300">SYSTEM.MOBILE_OS v2.4 DETECTED</p>
+            </div>
+        </div>
+
+        <!-- Mobile Media Widget -->
+        <div class="bg-black/80 border border-purple-600 p-4 rounded-lg shadow-lg relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-2 opacity-20">
+                <i class="ph-duotone ph-music-notes text-4xl text-purple-500"></i>
+            </div>
+            
+            <!-- Mobile Video Container -->
+            <div id="media-screen-mobile" class="w-full aspect-video bg-black mb-4 rounded border border-purple-900/50 flex items-center justify-center relative overflow-hidden">
+                <div class="text-purple-900/50 text-[10px] font-mono">VIDEO_OFFLINE</div>
+            </div>
+
+            <div class="flex items-center gap-4 relative z-10">
+                <div class="w-12 h-12 bg-purple-900/50 border border-purple-500 flex items-center justify-center rounded">
+                    <div class="flex items-end gap-[2px] h-1/2">
+                        <div class="w-1 bg-white animate-[bounce_0.8s_infinite]"></div>
+                        <div class="w-1 bg-purple-400 animate-[bounce_1.1s_infinite]"></div>
+                        <div class="w-1 bg-purple-300 animate-[bounce_0.9s_infinite]"></div>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="retro-font text-[10px] text-purple-400 uppercase">Tocando Agora</p>
+                    <p class="font-mono text-sm text-white truncate">PUNK_TRAP_SESSION.mp3</p>
+                </div>
+                <button id="btn-media-play-mobile" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white shadow hover:scale-105 transition">
+                    <i class="ph-fill ph-play text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Shop Grid -->
+        <div class="space-y-4">
+            <div class="flex justify-between items-end border-b border-purple-800 pb-2">
+                <h2 class="retro-font text-lg text-white">DESTAQUES</h2>
+                <button id="btn-open-full-store-mobile" class="text-xs font-mono text-purple-400 underline decoration-wavy">Ver Loja Completa >></button>
+            </div>
+            
+            <div id="mobile-shop-grid" class="grid grid-cols-2 gap-3">
+                <!-- CONTENT INJECTED BY app.js -->
+            </div>
+        </div>
+
+        <!-- Mobile Manifesto Card -->
+        <div class="border border-gray-700 bg-gray-900/50 p-4 rounded">
+            <h3 class="retro-font text-xs text-gray-400 mb-2">?? MANIFESTO.txt</h3>
+            <p class="font-mono text-sm text-gray-300 leading-relaxed">
+                ADRENASKT não é só sobre roupa. É sobre o asfalto, a queda e o acerto. 
+                <span class="text-purple-400">Hackeando a cidade.</span>
+            </p>
+        </div>
+
+    </section>
 
     <!-- PÁGINA DE LOGIN (FULL PAGE) -->
     <section id="full-login-page" class="full-page-section bg-black/95 backdrop-blur-md text-white z-[60]">

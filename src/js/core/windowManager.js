@@ -36,6 +36,9 @@ function setupDrag(win) {
   const header = win.querySelector('.window-header');
   if (!header) return;
 
+  // Disable dragging on mobile to respect the vertical layout
+  if (window.innerWidth < 768) return;
+
   header.addEventListener('mousedown', (e) => {
     e.preventDefault();
 
