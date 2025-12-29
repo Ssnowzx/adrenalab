@@ -19,6 +19,15 @@ export function initNavigation() {
   bind('btn-back-desktop-store', showHome);
   bind('btn-back-desktop-archive', showHome);
 
+  // Bind Mobile Menu
+  bind('mobile-menu-toggle', () => toggleMobileMenu(true));
+  bind('mobile-menu-close', () => toggleMobileMenu(false));
+
+  // Bind Mobile Nav Items (also close menu on click)
+  bind('mobile-nav-btn-home', () => { showHome(); toggleMobileMenu(false); });
+  bind('mobile-nav-btn-store', () => { showStore(); toggleMobileMenu(false); });
+  bind('mobile-nav-btn-archive', () => { showArchive(); toggleMobileMenu(false); });
+
   // Archive Playlist Interaction
   const playlistItems = document.querySelectorAll('.playlist-item');
   playlistItems.forEach(item => {
@@ -31,6 +40,13 @@ export function initNavigation() {
       item.classList.add('active');
     });
   });
+}
+
+export function toggleMobileMenu(show) {
+  const menu = document.getElementById('mobile-menu-overlay');
+  if (!menu) return;
+  if (show) menu.classList.remove('hidden');
+  else menu.classList.add('hidden');
 }
 
 function bind(id, handler) {

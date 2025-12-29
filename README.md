@@ -8,7 +8,9 @@ Sistema web retro-futurista com estética Cyberpunk/CRT desenvolvido para a marc
 
 ### 🖥️ Interface & UX
 - **Desktop System**: Interface baseada em janelas arrastáveis (Loja, Sobre, Player).
+- **Mobile First**: Experiência mobile totalmente otimizada (Menu Hamburger, Overlay, Carrinho Responsivo 90%, layout "clean").
 - **Estética Cyberpunk**: Efeitos CRT, scanlines, fontes pixeladas e paleta de cores Neon Purple.
+- **Visual High-End**: Padronização completa de botões (Voltar, Ações), barras de navegação consistentes e ícones refinados.
 - **Full Page Sections**: Transições suaves para páginas de foco total (Login, Checkout, Perfil, Arquivo).
 
 ### 🔐 Autenticação & Usuários
@@ -17,9 +19,13 @@ Sistema web retro-futurista com estética Cyberpunk/CRT desenvolvido para a marc
 - **Histórico de Pedidos**: O usuário pode visualizar suas compras passadas, carregadas diretamente do banco de dados.
 
 ### 🛒 E-commerce & Checkout
-- **Carrinho de Compras**: Gerenciamento de estado global e persistência.
+- **Carrinho de Compras**: Gerenciamento de estado global e persistência. Sidebar responsivo.
 - **Checkout Transparente**: Integração com **Mercado Pago Bricks** para pagamentos sem sair do site.
 - **Segurança Backend**: Processamento de pagamentos e gravação de pedidos feitos via **Serverless Functions** (`api/process-payment.js`), eliminando vulnerabilidades de injeção de dados pelo frontend.
+
+### 🏗️ Arquitetura & Código
+- **Atomic Design**: Organização modular de componentes e lógica (`core/`, `components/`).
+- **Clean Code**: Refatoração para evitar duplicação de lógica (ex: controle centralizado de Menu Mobile).
 
 ---
 

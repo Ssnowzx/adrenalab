@@ -39,11 +39,15 @@ export function initCheckout() {
           fullCheckoutPage.style.display = 'none';
 
           // RESTORE DESKTOP
-          if (desktopArea) desktopArea.style.display = 'block'; // Garante que a área principal esteja visível
+          if (desktopArea) desktopArea.style.display = ''; // Clear inline to let CSS (md:block) take over
+
+          // RESTORE MOBILE DASHBOARD
+          const mobileDashboard = document.getElementById('mobile-dashboard');
+          if (mobileDashboard) mobileDashboard.style.display = ''; // Clear inline to let CSS (md:hidden) take over
 
           // Re-exibir Dock
           const dock = document.getElementById('minimized-dock');
-          if (dock) dock.style.display = 'flex';
+          if (dock) dock.style.display = ''; // Clear inline to let CSS handle it
 
           // Re-abrir janelas que estavam abertas
           const hiddenWindows = document.querySelectorAll('.drag-window[data-was-open="true"]');

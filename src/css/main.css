@@ -172,8 +172,8 @@ h1, h2, h3, .retro-font {
 #cart-sidebar {
     position: fixed;
     top: 0;
-    right: -400px; 
-    width: 100%;
+    right: -100%; 
+    width: 90%;
     max-width: 400px;
     height: 100vh;
     background: rgba(10, 5, 20, 0.95);

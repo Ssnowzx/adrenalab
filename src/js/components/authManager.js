@@ -1,10 +1,12 @@
 
 import { supabase } from '../core/supabaseClient.js';
+import { toggleMobileMenu } from '../core/navigation.js';
 
 export function initAuth() {
   const fullLoginPage = document.getElementById('full-login-page');
   const fullProfilePage = document.getElementById('full-profile-page');
   const loginBtn = document.getElementById('nav-btn-login');
+  const mobileLoginBtn = document.getElementById('mobile-nav-btn-login');
 
   // Login Back Button
   const backBtnLogin = document.getElementById('btn-back-desktop-login');
@@ -17,17 +19,22 @@ export function initAuth() {
 
   // --- 1. Navigation Logic ---
 
-  if (loginBtn) {
-    loginBtn.addEventListener('click', async () => {
-      // Check if user is logged in
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        openProfilePage(session.user);
-      } else {
-        openLoginPage();
-      }
-    });
-  }
+  const handleLoginClick = async () => {
+    // Close mobile menu if open
+    toggleMobileMenu(false);
+
+    // Check if user is logged in
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      openProfilePage(session.user);
+    } else {
+      openLoginPage();
+    }
+  };
+
+  if (loginBtn) loginBtn.addEventListener('click', handleLoginClick);
+  if (mobileLoginBtn) mobileLoginBtn.addEventListener('click', handleLoginClick);
+
 
   if (backBtnLogin) {
     backBtnLogin.addEventListener('click', () => {
@@ -47,10 +54,12 @@ export function initAuth() {
       closePage(fullProfilePage);
 
       // Reset Login Button
-      if (loginBtn) {
-        loginBtn.innerText = '[LOGIN]';
-        loginBtn.classList.remove('text-green-400');
-      }
+      [loginBtn, mobileLoginBtn].forEach(btn => {
+        if (btn) {
+          btn.innerText = '[LOGIN]';
+          btn.classList.remove('text-green-400');
+        }
+      });
       alert('Desconectado com sucesso.');
     });
   }
@@ -99,7 +108,7 @@ export function initAuth() {
         if (profileLevel) profileLevel.innerText = data.level || 'INICIANTE'; // Pega do banco ou default
         if (profileJoined) {
           const date = new Date(data.created_at).toLocaleDateString('pt-BR');
-          profileJoined.innerText = `Membro desde ${date}`;
+          profileJoined.innerText = `Membro desde ${date} `;
         }
       }
     } catch (e) {
@@ -124,15 +133,15 @@ export function initAuth() {
 
       if (!orders || orders.length === 0) {
         historyList.innerHTML = `
-                  <div class="text-center py-8 text-gray-600 font-mono text-sm">
+  < div class="text-center py-8 text-gray-600 font-mono text-sm" >
                       <i class="ph-duotone ph-shopping-bag-open text-4xl mb-2 opacity-50"></i>
                       <p>Nenhum pedido encontrado. Hora de dropar na loja!</p>
-                  </div>`;
+                  </div > `;
         return;
       }
 
       historyList.innerHTML = orders.map(order => `
-              <div class="border border-purple-900/50 bg-purple-900/10 p-3 flex justify-between items-center group hover:border-purple-500 transition-colors">
+  < div class="border border-purple-900/50 bg-purple-900/10 p-3 flex justify-between items-center group hover:border-purple-500 transition-colors" >
                   <div>
                       <div class="text-[10px] text-gray-500 font-mono mb-1">DATA: ${new Date(order.created_at).toLocaleDateString('pt-BR')}</div>
                       <div class="text-xs text-white font-mono flex items-center gap-2">
@@ -144,8 +153,8 @@ export function initAuth() {
                       <div class="text-sm text-purple-400 font-bold">R$ ${order.total_amount.toFixed(2)}</div>
                       <div class="text-[10px] text-gray-600 uppercase">${order.payment_method || 'PIX'}</div>
                   </div>
-              </div>
-          `).join('');
+              </div >
+  `).join('');
 
     } catch (e) {
       console.error('Erro ao carregar pedidos:', e);
@@ -192,10 +201,14 @@ export function initAuth() {
 
   function restoreDesktop() {
     const desktopArea = document.getElementById('desktop-area');
-    if (desktopArea) desktopArea.style.display = 'block';
+    if (desktopArea) desktopArea.style.display = ''; // Clear inline to let CSS (md:block) take over
+
+    const mobileDashboard = document.getElementById('mobile-dashboard');
+    if (mobileDashboard) mobileDashboard.style.display = ''; // Clear inline to let CSS (md:hidden) take over
 
     const dock = document.getElementById('minimized-dock');
-    if (dock) dock.style.display = 'flex';
+    if (dock) dock.style.display = ''; // Clear inline to let CSS handle it
+
 
     // Restore windows
     const hiddenWindows = document.querySelectorAll('.drag-window[data-was-open="true"]');
@@ -299,17 +312,21 @@ async function checkSession() {
 
 function updateUserUI(user) {
   const loginBtn = document.getElementById('nav-btn-login');
-  if (loginBtn && user) {
-    loginBtn.innerText = `[${user.email.split('@')[0]}]`;
-    loginBtn.classList.add('text-green-400');
-  }
+  const mobileLoginBtn = document.getElementById('mobile-nav-btn-login');
+
+  [loginBtn, mobileLoginBtn].forEach(btn => {
+    if (btn && user) {
+      btn.innerText = `[${user.email.split('@')[0]}]`;
+      btn.classList.add('text-green-400');
+    }
+  });
 }
 
 function showMessage(msg, colorClass) {
   const el = document.getElementById('login-message');
   if (el) {
     el.innerText = msg;
-    el.className = `text-xs text-center min-h-[1rem] ${colorClass}`;
+    el.className = `text - xs text - center min - h - [1rem] ${colorClass} `;
   }
 }
 
