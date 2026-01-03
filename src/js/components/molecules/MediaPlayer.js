@@ -4,7 +4,7 @@
  */
 
 // Config: Default video ID (Skate Tricks Compilation)
-const DEFAULT_VIDEO_ID = '3VUvJVbtubs';
+const DEFAULT_VIDEO_ID = 'VBZadWXBYTU';
 
 let player = null;
 let isPlaying = false;
