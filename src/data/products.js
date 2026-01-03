@@ -3,21 +3,24 @@
  */
 export const products = [
   {
-    id: 'moletom_v1',
-    title: 'MOLETOM_ADRENA',
-    price: 189.90,
-    img: 'https://placehold.co/200x200/1e1e1e/9333ea?text=MOLETOM+V1'
-  },
-  {
-    id: 'bone_v2',
-    title: 'BONÉ_SKT_PRO',
+    id: 'snake_grabbers',
+    title: 'Snake Grabbers',
     price: 89.90,
-    img: 'https://placehold.co/200x200/1e1e1e/9333ea?text=BONE+V2'
+    img: './src/assets/products/grabbs.jpg',
+    soldOut: true
   },
   {
-    id: 'shape_cyber',
-    title: 'DECK_CYBER_8.0',
-    price: 259.90,
-    img: 'https://placehold.co/200x200/1e1e1e/9333ea?text=DECK+CYBER'
+    id: 'shape_85',
+    title: 'Shape 8.5',
+    price: 320.00,
+    img: './src/assets/products/shape8.5.png',
+    soldOut: true
+  },
+  {
+    id: 'shape_newschool',
+    title: 'Shape NewSchool',
+    price: 380.00,
+    img: './src/assets/products/newschool.png',
+    soldOut: true
   }
 ];

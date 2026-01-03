@@ -40,8 +40,23 @@ export function createProductCard(product, onBuy) {
     onBuy(product);
   };
 
+  if (product.soldOut) {
+    const soldOutOverlay = document.createElement('div');
+    soldOutOverlay.className = "absolute inset-0 bg-black/60 flex items-center justify-center";
+    soldOutOverlay.innerHTML = '<span class="text-red-500 font-bold retro-font text-xs border border-red-500 px-2 py-1 rotate-12">ESGOTADO</span>';
+    imgContainer.appendChild(soldOutOverlay);
+  }
+
   footer.appendChild(priceSpan);
-  footer.appendChild(btn);
+
+  if (product.soldOut) {
+    const soldOutBtn = document.createElement('span');
+    soldOutBtn.className = "text-gray-500 text-[10px] px-2 py-1 retro-font font-bold border border-gray-700 cursor-not-allowed";
+    soldOutBtn.innerText = "ESGOTADO";
+    footer.appendChild(soldOutBtn);
+  } else {
+    footer.appendChild(btn);
+  }
 
   // Assemble
   card.appendChild(imgContainer);
