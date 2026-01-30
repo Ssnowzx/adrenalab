@@ -298,3 +298,12 @@ h1, h2, h3, .retro-font {
 .snows-effect {
     animation: snows-glow 3s infinite ease-in-out;
 }
+
+@keyframes spin-horizontal {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+.animate-spin-horizontal {
+    animation: spin-horizontal 6s linear infinite;
+}
