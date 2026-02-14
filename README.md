@@ -1,95 +1,43 @@
 # ADRENASKT // SISTEMA_ONLINE 🛹👾
 
-Sistema web retro-futurista com estética Cyberpunk/CRT desenvolvido para a marca AdrenaSKT. O projeto combina uma experiência de usuário imersiva (estilo desktop antigo) com funcionalidades modernas de e-commerce e segurança robusta.
+> **"The street finds its own uses for things."**
+
+Bem-vindo ao **ADRENASKT**, uma experiência web imersiva que funde a cultura skate street com uma estética **Cyberpunk/CRT Retro-Futurista**. Mais do que um e-commerce, este projeto é uma simulação de um sistema operacional underground, projetado para oferecer uma navegação única e memorável.
 
 ---
 
-## 🚀 Funcionalidades Implementadas
+## 🖥️ A Experiência (UX/UI)
 
-### 🖥️ Interface & UX
-- **Desktop System**: Interface baseada em janelas arrastáveis (Loja, Sobre, Player).
-- **Mobile First**: Experiência mobile totalmente otimizada (Menu Hamburger, Overlay, Carrinho Responsivo 90%, layout "clean").
-- **Estética Cyberpunk**: Efeitos CRT, scanlines, fontes pixeladas e paleta de cores Neon Purple.
-- **Visual High-End**: Padronização completa de botões (Voltar, Ações), barras de navegação consistentes e ícones refinados.
-- **Full Page Sections**: Transições suaves para páginas de foco total (Login, Checkout, Perfil, Arquivo).
+O sistema foi construído para simular um ambiente de desktop retro, completo com:
 
-### 🔐 Autenticação & Usuários
-- **Login/Cadastro**: Integração completa com **Supabase Auth**.
-- **Perfil do Usuário**: Página exclusiva exibindo status, nível (Gamificação) e data de entrada.
-- **Histórico de Pedidos**: O usuário pode visualizar suas compras passadas, carregadas diretamente do banco de dados.
+- **Janelas Interativas Arrastáveis**: Navegue pela Loja, Sobre Nós e Music Player como se estivesse em um sistema operacional antigo.
+- **Estética High-Fi Cyberpunk**: Efeitos de scanlines (CRT), glitch art, tipografia pixelada e uma paleta de cores Neon Purple vibrante.
+- **Mobile First**: Uma versão mobile totalmente reimaginada, garantindo que a experiência seja fluida em qualquer dispositivo, com menus táteis e layouts adaptativos.
+- **Imersão Total**: Transições suaves entre modos de janela e seções de tela cheia (como Login e Checkout).
 
-### 🛒 E-commerce & Checkout
-- **Carrinho de Compras**: Gerenciamento de estado global e persistência. Sidebar responsivo.
-- **Checkout Transparente**: Integração com **Mercado Pago Bricks** para pagamentos sem sair do site.
-- **Segurança Backend**: Processamento de pagamentos e gravação de pedidos feitos via **Serverless Functions** (`api/process-payment.js`), eliminando vulnerabilidades de injeção de dados pelo frontend.
+## 🚀 Tecnologias e Arquitetura
 
-### 🏗️ Arquitetura & Código
-- **Atomic Design**: Organização modular de componentes e lógica (`core/`, `components/`).
-- **Clean Code**: Refatoração para evitar duplicação de lógica (ex: controle centralizado de Menu Mobile).
+Sob o capô dessa interface retrô, roda uma engine moderna e robusta:
 
----
+- **Frontend**: HTML5 Semântico, CSS3 Moderno (CSS Variables para temas) e Vanilla JavaScript (ES6+ Modules) para máxima performance sem o peso de frameworks desnecessários.
+- **Backend & Database**: Integração completa com **Supabase** para autenticação segura de usuários, gerenciamento de perfis gamificados e histórico de pedidos em tempo real.
+- **Pagamentos**: Sistema de checkout transparente e seguro powered by **Mercado Pago**, com processamento via Serverless Functions para garantir a integridade das transações.
+- **Arquitetura**: Código organizado seguindo princípios de **Atomic Design** e **Clean Code**, garantindo escalabilidade e facilidade de manutenção.
 
-## ⚠️ CONFIGURAÇÃO CRÍTICA (DEPLOY / PRODUÇÃO) ⚠️
+## 🛠️ Instalação Local
 
-Para garantir que o checkout e o salvamento de pedidos funcionem corretamente e com segurança máxima, você **PRECISA** configurar as Variáveis de Ambiente no seu serviço de hospedagem (Recomendado: **Vercel**).
+Para rodar o sistema em sua máquina:
 
-**Não pule esta etapa, ou o sistema de vendas falhará.**
-
-Vá em **Settings > Environment Variables** no painel da Vercel e adicione:
-
-| Nome da Variável | Valor (Onde encontrar) | Descrição |
-| :--- | :--- | :--- |
-| `MP_ACCESS_TOKEN` | `APP_USR-...` | Painel Dev Mercado Pago > Credenciais de Produção. |
-| `SUPABASE_URL` | `https://....supabase.co` | Supabase > Project Settings > API > Project URL. |
-| `SUPABASE_SERVICE_ROLE_KEY` | `sb_secret_...` | Supabase > Project Settings > API > Project API Keys (**Service Role**). |
-
-> **IMPORTANTE**: A chave `SUPABASE_SERVICE_ROLE_KEY` dá acesso total ao seu banco de dados. **Nunca** a coloque no código público (`.js`, `.html`). Ela deve viver apenas no servidor (Variáveis de Ambiente).
+1.  Clone o repositório.
+2.  Instale as dependências:
+    ```bash
+    npm install
+    ```
+3.  Inicie o servidor de desenvolvimento:
+    ```bash
+    npm run dev
+    ```
 
 ---
 
-## 🛠️ Banco de Dados (Configuração Inicial)
-
-O sistema depende de tabelas específicas no Supabase. O script de criação está salvo na raiz do projeto como `supabase_schema.sql`.
-
-**Passos para configurar:**
-1. Abra o **SQL Editor** no painel do Supabase.
-2. Copie todo o conteúdo do arquivo `supabase_schema.sql`.
-3. Cole e execute (`Run`) no editor.
-
-Isso criará:
-- Tabela `profiles` (Perfis de usuário e níveis).
-- Tabela `orders` (Pedidos).
-- Tabela `order_items` (Itens comprados).
-- Triggers automáticos para novos usuários.
-- Políticas de Segurança (RLS) para proteger os dados.
-
----
-
-## 📂 Estrutura do Projeto
-
-- **`index.html`**: Estrutura principal, contendo o Desktop e as Seções Full Page.
-- **`api/`**: Funções Backend (Serverless).
-  - `process-payment.js`: Cérebro do checkout. Recebe o pagamento, valida com MP e salva no Supabase.
-- **`src/js/`**:
-  - `app.js`: Ponto de entrada e inicialização.
-  - `core/`: Lógica de negócios (`checkoutManager.js`, `store.js`, `supabaseClient.js`).
-  - `components/`: Lógica de UI (`authManager.js`).
-
----
-
-## 💻 Como Rodar Localmente
-
-1. **Instalar dependências**:
-   ```bash
-   npm install
-   ```
-
-2. **Rodar servidor de desenvolvimento**:
-   ```bash
-   npm run dev
-   ```
-
-*Nota: Para testar o fluxo de checkout completo localmente (pagamento + banco), você precisará configurar as variáveis de ambiente localmente (ex: usando Vercel CLI `vercel dev`) ou subir para um ambiente de preview.*
-
----
-
+*Project by AdrenaSKT Dev Team. Fight the boredom. Skate the world.*
