@@ -7,3 +7,4 @@ dist
 build
 npm-debug.log
 DOCUMENTACAO.md
+SYSTEM_PROMPT.md
