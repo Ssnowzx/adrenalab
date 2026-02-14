@@ -8,3 +8,4 @@ build
 npm-debug.log
 DOCUMENTACAO.md
 SYSTEM_PROMPT.md
+supabase_schema.sql
